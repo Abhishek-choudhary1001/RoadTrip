@@ -1,57 +1,49 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Review = require('../models/Review');
+const auth = require('../middleware/auth');
 
-// CREATE a review
-router.post('/', async (req, res) => {
+// Get all reviews for a trip
+router.get('/:tripId', async (req, res) => {
   try {
-    const review = await Review.create(req.body);
-    res.status(201).json(review);
+    const { tripId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(tripId)) {
+      return res.status(400).json({ error: 'Invalid trip ID format' });
+    }
+    const reviews = await Review.find({ trip: tripId })
+      .populate('user', 'username')
+      .sort({ createdAt: -1 });
+    res.json({ reviews });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('Failed to fetch reviews:', err);
+    res.status(500).json({ error: 'Failed to fetch reviews' });
   }
 });
 
-// READ all reviews
-router.get('/', async (req, res) => {
+// Post a new review for a trip
+router.post('/:tripId', auth, async (req, res) => {
   try {
-    const reviews = await Review.find().populate('user', 'username').populate('roadTrip', 'name');
-    res.json(reviews);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+    const { text } = req.body;
+    const { tripId } = req.params;
 
-// READ a single review by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const review = await Review.findById(req.params.id).populate('user', 'username').populate('roadTrip', 'name');
-    if (!review) return res.status(404).json({ error: 'Review not found' });
-    res.json(review);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+    if (!text) return res.status(400).json({ error: 'Text is required' });
 
-// UPDATE a review
-router.put('/:id', async (req, res) => {
-  try {
-    const review = await Review.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!review) return res.status(404).json({ error: 'Review not found' });
-    res.json(review);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+    if (!mongoose.Types.ObjectId.isValid(tripId)) {
+      return res.status(400).json({ error: 'Invalid trip ID format' });
+    }
 
-// DELETE a review
-router.delete('/:id', async (req, res) => {
-  try {
-    const review = await Review.findByIdAndDelete(req.params.id);
-    if (!review) return res.status(404).json({ error: 'Review not found' });
-    res.json({ message: 'Review deleted' });
+    const review = new Review({
+      trip: new mongoose.Types.ObjectId(tripId),
+      user: req.user.id,
+      text
+    });
+    await review.save();
+    await review.populate('user', 'username');
+    res.json({ review });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Failed to add review:', err);
+    res.status(500).json({ error: 'Failed to add review' });
   }
 });
 
