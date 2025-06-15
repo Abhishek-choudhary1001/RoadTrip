@@ -1,9 +1,9 @@
-// backend/server.js
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
 const cors = require('cors');
+const ipLocationRoutes = require('./routes/ipLocationRoutes');
 const authRoutes = require('./routes/authRoutes');
 const locationRoutes = require('./routes/locationRoutes');
 const roadTripRoutes = require('./routes/roadTripRoutes');
@@ -16,15 +16,10 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
-
-
-
-
-
-
+// CORS must be at the very top, before any routes or middleware
+app.use(cors()); // <-- This comes first
 
 // Middleware
-app.use(cors()); // Enable CORS if frontend is separate
 app.use(express.json());
 app.use(logger);
 
@@ -37,6 +32,8 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
+app.use('/api/ip', ipLocationRoutes);
+app.use('/api/weather', require('./routes/weatherRoutes'));
 app.use('/api/auth', authRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/roadtrips', auth, roadTripRoutes); // Protected
