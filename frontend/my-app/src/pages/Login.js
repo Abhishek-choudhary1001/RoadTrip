@@ -22,7 +22,7 @@ export default function Login() {
           alert("Login successful!");
           localStorage.setItem("token", data.token); // Store JWT
           // Fetch user profile and update context
-          fetch("/api/auth/profile", {
+          fetch("https://mern-roadtrip-planner.onrender.com/api/auth/profile", {
             headers: { Authorization: `Bearer ${data.token}` }
           })
             .then(res => res.json())
