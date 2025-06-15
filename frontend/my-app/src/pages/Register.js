@@ -10,7 +10,7 @@ export default function Register() {
 
   // Function to POST registration details to backend
   const postSignUpDetails = () => {
-    fetch("http://localhost:5000/api/auth/register", {
+    fetch("https://mern-roadtrip-planner.onrender.com/api/auth/register", {
       method: "POST",
       body: JSON.stringify({ email, username, tel, password }),
       headers: { "Content-Type": "application/json" },
