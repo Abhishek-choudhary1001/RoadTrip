@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+const backendUrl = "https://mern-roadtrip-planner.onrender.com";
 
 // Use valid ObjectIds for _id fields!
 const PRESELECTED_TRIPS = [
@@ -69,7 +70,7 @@ export default function BrowseTrips() {
   // Fetch reviews for all trips on mount
   useEffect(() => {
     PRESELECTED_TRIPS.forEach(trip => {
-      fetch(`/api/reviews/${trip._id}`)
+      fetch(`${backendUrl}/api/reviews/${trip._id}`)
         .then(res => res.json())
         .then(data => {
           setReviews(prev => ({
@@ -88,7 +89,7 @@ export default function BrowseTrips() {
     setAdding(true);
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("/api/roadtrips", {
+      const res = await fetch(`${backendUrl}/api/roadtrips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,7 +139,7 @@ const handleLike = (tripId) => {
       alert("Invalid trip ID.");
       return;
     }
-    const res = await fetch(`/api/reviews/${tripId}`, {
+    const res = await fetch(`${backendUrl}/api/reviews/${tripId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

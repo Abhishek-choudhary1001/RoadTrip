@@ -15,7 +15,7 @@ export default function ReviewForm({ tripId, onReviewAdded }) {
     if (!text.trim()) return;
     setLoading(true);
     const token = localStorage.getItem("token");
-    const res = await fetch(`/api/reviews/${tripId}`, {
+    const res = await fetch(`https://mern-roadtrip-planner.onrender.com/api/reviews/${tripId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

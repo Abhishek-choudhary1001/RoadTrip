@@ -7,7 +7,7 @@ export default function WeatherWidget({ location = "New York" }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/api/weather/${location}`)
+    fetch(`https://mern-roadtrip-planner.onrender.com/api/weather/${location}`)
       .then(res => res.json())
       .then(data => {
         if (data.error) throw new Error(data.error.info);

@@ -5,7 +5,7 @@ export default function ApiTest() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("/api/message")
+    fetch("https://mern-roadtrip-planner.onrender.com/api/message")
       .then(res => res.json())
       .then(data => setMessage(data.message))
       .catch(() => setMessage("API not reachable"));

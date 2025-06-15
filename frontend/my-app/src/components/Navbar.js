@@ -21,7 +21,7 @@ export default function Navbar() {
   const fetchUserLocation = async () => {
     try {
       
-      const response = await fetch('http://localhost:5000/api/ip/location');
+      const response = await fetch('https://mern-roadtrip-planner.onrender.com/api/ip/location');
       const data = await response.json();
       if (data.city) {
         setLocation(data.city);

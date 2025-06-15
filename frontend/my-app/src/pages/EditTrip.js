@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 // import { isLoggedIn } from "../utils/auth"; // Optional: use if you prefer
+const backendUrl = "https://mern-roadtrip-planner.onrender.com";
 
 export default function EditTrip() {
   const { id } = useParams();
@@ -17,7 +18,7 @@ export default function EditTrip() {
       navigate("/login");
       return;
     }
-    fetch(`/api/trips/${id}`, {
+    fetch(`${backendUrl}/api/trips/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -43,7 +44,7 @@ export default function EditTrip() {
     e.preventDefault();
     setError("");
     try {
-      const res = await fetch(`/api/trips/${id}`, {
+      const res = await fetch(`${backendUrl}/api/trips/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

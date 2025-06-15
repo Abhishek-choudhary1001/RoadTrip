@@ -9,7 +9,7 @@ export default function Login() {
   const { setUser } = useUser();
 
   const postLoginDetails = () => {
-    fetch("http://localhost:5000/api/auth/login", {
+    fetch("https://mern-roadtrip-planner.onrender.com/api/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: { "Content-Type": "application/json" },

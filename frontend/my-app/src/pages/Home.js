@@ -1,8 +1,9 @@
 // src/pages/Home.js
 import { Link } from "react-router-dom";
-import Welcome from '../components/Welcome';
+
 
 export default function Home() {
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-400 via-pink-200 to-pink-500 flex flex-col items-center">
       

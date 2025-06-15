@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { isLoggedIn } from "../utils/auth"; // import the auth check
 
 export default function CreateTrip() {
+  const backendUrl = "https://mern-roadtrip-planner.onrender.com";
+
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -33,7 +35,7 @@ export default function CreateTrip() {
     setError("");
     try {
       // Use the correct backend port (5000)
-      const res = await fetch("http://localhost:5000/api/roadtrips", {
+      const res = await fetch(`${backendUrl}/api/roadtrips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -21,7 +21,7 @@ export default function Profile() {
       return;
     }
 
-    fetch("/api/auth/profile", {
+    fetch("https://mern-roadtrip-planner.onrender.com/api/auth/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -69,7 +69,7 @@ export default function Profile() {
     e.preventDefault();
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("/api/auth/profile", {
+      const response = await fetch("https://mern-roadtrip-planner.onrender.com/api/auth/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

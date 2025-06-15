@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export default function BrowseTrips() {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
+  const backendUrl = "https://mern-roadtrip-planner.onrender.com";
 
   // Check if the user is logged in
   const isLoggedIn = Boolean(localStorage.getItem("token"));
@@ -14,7 +15,7 @@ export default function BrowseTrips() {
       setLoading(false);
       return;
     }
-    fetch("/api/roadtrips", {
+    fetch(`${backendUrl}/api/roadtrips`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -39,7 +40,7 @@ export default function BrowseTrips() {
     const token = localStorage.getItem("token");
     if (!token) return;
     if (!window.confirm("Are you sure you want to delete this trip?")) return;
-    const res = await fetch(`/api/roadtrips/${tripId}`, {
+    const res = await fetch(`${backendUrl}/api/roadtrips/${tripId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

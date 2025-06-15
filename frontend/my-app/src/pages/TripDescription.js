@@ -15,7 +15,7 @@ export default function TripDescription() {
 
   // Fetch trip details and reviews on mount
   useEffect(() => {
-    fetch(`/api/roadtrips/${id}`)
+    fetch(`https://mern-roadtrip-planner.onrender.com/api/roadtrips/${id}`)
       .then(res => res.json())
       .then(data => {
         setTrip(data.trip);
@@ -32,7 +32,7 @@ export default function TripDescription() {
       navigate("/login");
       return;
     }
-    fetch("/api/my-trips", {
+    fetch("https://mern-roadtrip-planner.onrender.com/api/my-trips", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function TripDescription() {
       navigate("/login");
       return;
     }
-    fetch(`/api/trips/${id}/reviews`, {
+    fetch(`https://mern-roadtrip-planner.onrender.com/api/trips/${id}/reviews`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
